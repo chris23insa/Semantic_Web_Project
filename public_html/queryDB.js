@@ -1,5 +1,5 @@
 var url = "http://dbpedia.org/sparql";
-var uri = "http://dbpedia.org/resource/Friends";
+var uri = "http://dbpedia.org/resource/Quantico_(TV_series)";
 var language = "en";
 
 var array = {};
@@ -29,10 +29,10 @@ async function getRelatedWorks(uri, language) {
         `select ?relName
         where
         {
-        <${uri}> dbo:subsequlanguagetWork ?rel.
-        ?rel rdfs:label ?relName.
-        FILTER(LANG(?relName)="language")
-    }`;
+            <${uri}> dbo:subsequentWork ?rel.
+            ?rel rdfs:label ?relName.
+            FILTER(LANG(?relName)="${language}")
+        }`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
 
     return await
@@ -42,7 +42,7 @@ async function getRelatedWorks(uri, language) {
         }).done((data) => {
             var results = data.results.bindings;
             console.log(results);
-            array['country'] = results[0]['country']['value'];
+            array['relName'] = results[0]['relName']['value'];
         });
 }
 
@@ -125,7 +125,7 @@ async function getThumbnail(uri, language) {
 Promise.all([
     getName(uri, language),
     getRelatedWorks(uri, language),
-    getCountry(uri, language),
+    getCountry(uri, language),  
     getLanguage(uri, language),
     getLogo(uri, language),
     getThumbnail(uri, language)
