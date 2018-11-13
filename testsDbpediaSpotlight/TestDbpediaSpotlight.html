@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Test DBpedia Spotlight</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="reponse"></div>
+        <script>
+		
+		var uri = null;
+		var compteurAvecFiltre = 0;
+		var compteurSansFiltre = 0;
+
+    window.onload = function(){
+    readSingleFile("data.txt", traitementURIWithFilter)
+
+            };
+
+	/*
+		Cette fonction nous a permi de lire les données d'un fichier afin de requêter dbpedia spotlight
+		et d'analyser les résultats qu'il nous retournait.
+		file est le chemin du fichier ou on lit les données (format JSON).
+	*/
+    function readSingleFile(file, traitementURIWithFilter) {
+  		$.ajax({
+  			url: file,
+  			dataType : "json",
+  			success: function(result){
+  				var labels = result.results.bindings;
+  				for (var i=0; i<500; i++) {
+  						getURIWithFilter(labels[i].label.value, 0.5, traitementURIWithFilter);
+  				}
+  			}
+  		});
+    }
+
+            
+	/* 
+		Fonction permettant de retourner l'URI correspondante au titre de la série rentrée ou sélectionnée par l'utilisateur
+
+		mytext est le titre de la série dont l'utilisateur souhaite rechercher les informations
+		myconfidence est le niveau de confiance de la détection de l'URI à partir de la chaîne de caractère
+		retourne l'URI correspondante au titre de la série
+	*/
+    function getURIWithFilter(mytext,myconfidence, traitementURIWithFilter) {
+    		var myTextUpperCase = mytext.toUpperCase();
+                    $.ajax({
+                        url: "http://model.dbpedia-spotlight.org/en/annotate", 
+                        data : {
+                            text : myTextUpperCase,
+                            confidence : myconfidence,
+    			                  types : "DBpedia:TelevisionShow"
+                        },
+                        // On a mis la propriété async à false car le serveur de dbpedia bloquait toutes nos requêtes
+                        // si elles s'enchainaient trop rapidement
+                        async:false,
+                        headers: {          
+                            Accept: "application/json"
+                        },  
+                        success: traitementURIWithFilter
+                    });
+      }
+
+  	function traitementURIWithFilter(result){
+  		if (result.Resources != undefined && result.Resources[0]["@URI"] != null) {
+  			uri = result.Resources[0]["@URI"];
+			  compteurAvecFiltre++;
+  		} else {
+  		  getURIWithoutFilter(result["@text"], result["@confidence"], traitementURIWithoutFilter);
+  		}
+  	}
+
+	function getURIWithoutFilter(myTextUpperCase,myconfidence, traitementURIWithoutFilter) {
+      $.ajax({
+          url: "http://model.dbpedia-spotlight.org/en/annotate", 
+          data : {
+              text : myTextUpperCase,
+              confidence : myconfidence
+          },
+          // On a mis la propriété async à false car le serveur de dbpedia bloquait toutes nos requêtes
+          // si elles s'enchainaient trop rapidement
+          async:false,
+          headers: {          
+              Accept: "application/json"
+          },  
+          success: traitementURIWithoutFilter
+      });
+ 	 }
+
+	function traitementURIWithoutFilter(result){
+		if (result.Resources != undefined && result.Resources[0]["@URI"] != null) {
+			uri = result.Resources[0]["@URI"];
+			console.log("Recherche sans filtre : " + uri);
+			// Affiche l'uri après une requête sans filtre. Cela nous a permis d'analyser 
+			// si l'uri retournée était eronnée ou non
+		  compteurSansFiltre++;
+		} 
+		else {		
+			uri = null;
+		}
+	}		
+        </script>
+    </body>
+
+</html>
+
