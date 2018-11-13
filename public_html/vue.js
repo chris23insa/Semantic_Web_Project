@@ -1,4 +1,4 @@
-/* 
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -11,6 +11,7 @@ function clearResponse()
 
 var MAP = {"title":"Game of Thrones",
            "creators":["JM","toto","Paul"],
+           "Autre":{"Ceci est un test":1, "et un autre":[1,2,3,4,5,6]},
            "releaseDate":"01-01-2019"};
 
 function getHTML(key,value,lvl)
@@ -22,13 +23,11 @@ function getHTML(key,value,lvl)
 
     if(typeof value == 'string')
     {
-        console.log('string')
         container.append(value)
         return container
     }
-    if(value.isArray)
+    if(Array.isArray(value))
     {
-        console.log('isarray')
         var listContainer = document.createElement('ul')
         for(var e in value)
         {
@@ -39,7 +38,13 @@ function getHTML(key,value,lvl)
         container.append(listContainer)
         return container
     }
-    return "test"
+
+    for(e in value)
+    {
+      container.append(getHTML(e,value[e],lvl+1))
+    }
+    return container
+
 }
 
 function displayMap(map)
@@ -49,49 +54,13 @@ function displayMap(map)
     var titleContainer = document.createElement('h1')
     titleContainer.innerHTML=title
     container.append(titleContainer)
-    
+
     delete map["title"]
     for(elem in map)
     {
         var response = getHTML(elem,map[elem],1)
         container.append(getHTML(elem,map[elem],1))
     }
+
+    $("#response")[0].appendChild(container)
 }
-
-
-// fonction de test, sera supprimé au profit d'une fonction plus modulaire
-/*function displayMap(map)
-{
-    var title = map["title"]
-    var creators = map["creators"]
-    var releaseDate = map["releaseDate"]
-
-    var container = document.createElement('div')
-
-    var titleContainer = document.createElement('h1')
-    titleContainer.innerHTML=title
-    container.append(titleContainer)
-
-    var creatorsContainer = document.createElement('div')
-    var creatorsTitleContainer = document.createElement('h2')
-    creatorsTitleContainer.innerHTML = "Creator(s)"
-    var creatorListContainer = document.createElement('ul')
-    for(var c in creators)
-    {
-        var li = document.createElement('li')
-        li.innerHTML = creators[c]
-        creatorListContainer.appendChild(li)
-    }
-    creatorsContainer.append(creatorsTitleContainer)
-    creatorsContainer.append(creatorListContainer)
-    container.append(creatorsContainer)
-
-    var creatorsContainer = document.createElement('div')
-    var creatorsTitleContainer = document.createElement('h2')
-    creatorsTitleContainer.innerHTML = "Release Date"
-    var creatorListContainer = document.createElement('ul')
-
-    $('#response')[0].append(container)
-}*/
-
-
