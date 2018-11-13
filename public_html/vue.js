@@ -4,12 +4,19 @@
  * and open the template in the editor.
  */
 
+function startSearch()
+{
+  var value = $("#searchInput")[0].value
+  console.log(getURIWithFilter(value,myconfidence,traitementURIWithFilter))
+}
+
 function clearResponse()
 {
     $("#response").empty()
 }
 
 var MAP = {"title":"Game of Thrones",
+            "image":"https://o.aolcdn.com/images/dims3/GLOB/crop/1200x601+0+38/resize/630x315!/format/jpg/quality/85/http%3A%2F%2Fo.aolcdn.com%2Fhss%2Fstorage%2Fmidas%2F539adfa5932c24f59de7bd379d433c2d%2F206220727%2Fcq5dam.web.1200.675.jpeg",
            "creators":["JM","toto","Paul"],
            "Autre":{"Ceci est un test":1, "et un autre":[1,2,3,4,5,6]},
            "releaseDate":"01-01-2019"};
@@ -53,13 +60,29 @@ function displayMap(map)
     var container = document.createElement('div')
     var titleContainer = document.createElement('h1')
     titleContainer.innerHTML=title
+
+    if('image' in map)
+    {
+      var imgContainer = document.createElement('img')
+      imgContainer.src = map['image']
+      container.append(imgContainer)
+      delete map['image']
+    }
+
+    if('thumbnail' in map)
+    {
+      var imgContainer = document.createElement('img')
+      imgContainer.src = map['thumbnail']
+      container.append(imgContainer)
+      delete map['thumbnail']
+    }
+
     container.append(titleContainer)
 
     delete map["title"]
     for(elem in map)
     {
-        var response = getHTML(elem,map[elem],1)
-        container.append(getHTML(elem,map[elem],1))
+        container.append(getHTML(elem,map[elem],2))
     }
 
     $("#response")[0].appendChild(container)
