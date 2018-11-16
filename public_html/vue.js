@@ -84,6 +84,7 @@ function displayMap(map)
     var title = map["title"]
     var container = document.createElement('div')
 	container.style.textAlign = "center"
+    container.classList.add("bigContainer")
     var titleContainer = document.createElement('h1')
     titleContainer.innerHTML=title
 
