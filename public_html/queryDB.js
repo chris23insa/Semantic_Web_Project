@@ -429,7 +429,7 @@ async function getCountry(uri, language) {
                     }
                 });
                 for (var i = 0; i < array['Country'].length; i++) {
-                    var reg = new RegExp(array['Country'][i].replace(/[.]/g, '').replace(/./g, "$&.*"));
+                    var reg = new RegExp(array['Country'][i].replace(/[.]/g, '').replace(/./g, "$&.*"), 'i');
                     array['Country'].forEach((country, j) => {
                         if (i !== j && reg.test(country))
                             array['Country'].splice(i, 1);
@@ -571,6 +571,10 @@ async function getSeriesListByCategories(language, genre) {
 
     return results;
 }
+
+getCountry(uri, language).then(() => {
+   console.log(array['Country']);
+});
 
 /*getSeriesListByCategories(language, "Action").then((response) => {
     console.log(response);
