@@ -1,5 +1,5 @@
 var url = "http://dbpedia.org/sparql";
-var uri = "http://dbpedia.org/resource/Friends";
+var uri = "http://dbpedia.org/resource/Battlefield_(TV_series)";
 var language = "en";
 
 var array = {};
@@ -71,7 +71,6 @@ async function getTypeDB(uri, language) {
         });
 }
 
-
 async function getDescription(uri, language) {
     var query = `select ?com where{ <${uri}> dbo:abstract ?com.FILTER(LANG(?com) = "${language}")}`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
@@ -90,7 +89,6 @@ async function getDescription(uri, language) {
         });
 
 }
-
 
 async function getType(uri, language) {
     var query = `select ?typeSerie
@@ -148,7 +146,6 @@ async function getCompany(uri, language) {
         });
 }
 
-
 async function getRuntime(uri, language) {
     var query = `select ?runtime where{ <${uri}> <http://dbpedia.org/ontology/Work/runtime> ?runtime.}`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
@@ -162,7 +159,7 @@ async function getRuntime(uri, language) {
                 var results = data.results.bindings;
                 array['Runtime'] = [];
                 results.forEach(function (element) {
-                    var newElement = element["runtime"]["value"].replace('-','');
+                    var newElement = element["runtime"]["value"].replace('-', '');
                     if (array['Runtime'].indexOf(newElement) === -1) {
                         array['Runtime'].push(newElement);
                     }
@@ -320,7 +317,6 @@ async function getNumberEpisodes(uri, language) {
 
 }
 
-
 async function getNumberSeasons(uri, language) {
     var query = `select ?nbrSeasons 
     where{ <${uri}> dbo:numberOfSeasons ?nbrSeasons.
@@ -432,6 +428,13 @@ async function getCountry(uri, language) {
                         array['Country'].push(newElement);
                     }
                 });
+                for (var i = 0; i < array['Country'].length; i++) {
+                    var reg = new RegExp(array['Country'][i].replace(/[.]/g, '').replace(/./g, "$&.*"));
+                    array['Country'].forEach((country, j) => {
+                        if (i !== j && reg.test(country))
+                            array['Country'].splice(i, 1);
+                    });
+                }
             } catch (error) {
             }
         });
@@ -507,12 +510,12 @@ async function getThumbnail(uri, language) {
 }
 
 async function getData(uri, language) {
-	array = {};
+    array = {};
     await Promise.all([
-        getName(uri, language), 
-        getSerieName(uri, language), 
-        getTypeDB(uri,language), 
-        getDescription(uri, language), 
+        getName(uri, language),
+        getSerieName(uri, language),
+        getTypeDB(uri, language),
+        getDescription(uri, language),
         getType(uri, language),
         getRuntime(uri, language),
         getCompany(uri, language),
@@ -534,12 +537,11 @@ async function getData(uri, language) {
     return array;
 }
 
-    
-    getData(uri, language).then((array1) => {
-        console.log(JSON,array1);
-        console.log(JSON.stringify(array1));
-        });
-        
+/*getData(uri, language).then((array1) => {
+    console.log(JSON, array1);
+    console.log(JSON.stringify(array1));
+});*/
+
 async function getSeriesListByCategories(language, genre) {
     var query =
         `select distinct ?uri ?nameSerie
@@ -553,7 +555,7 @@ async function getSeriesListByCategories(language, genre) {
             FILTER(LANG(?nameSerie)="${language}") 
         }`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
-    
+
     var results;
 
     await
@@ -561,15 +563,15 @@ async function getSeriesListByCategories(language, genre) {
             dataType: "jsonp",
             url: queryUrl
         }).done((data) => {
-            try{
-                results = data.results.bindings; 
-            }catch(error){}
+            try {
+                results = data.results.bindings;
+            } catch (error) {
+            }
         });
-        
+
     return results;
 }
 
 /*getSeriesListByCategories(language, "Action").then((response) => {
     console.log(response);
 });*/
-
