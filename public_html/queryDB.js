@@ -474,6 +474,7 @@ async function getThumbnail(uri, language) {
 }
 
 async function getData(uri, language) {
+	array = {};
     await Promise.all([
         getName(uri, language), 
         getSerieName(uri, language), 
