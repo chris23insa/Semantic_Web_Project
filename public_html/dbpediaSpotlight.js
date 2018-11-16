@@ -7,20 +7,6 @@ var myconfidence =0.5; // degré de confiance choisi
     //La variable uri vaut null si aucun uri n'a été trouvé, elle contient l'uri trouvée sinon.
     */
     
-	getURIWithFilter(mytext, myconfidence, traitementURIWithFilter).done(fonction(result) {
-		if (result.Resources !== undefined && result.Resources[0]["@URI"] !== null) {
-				uri = result.Resources[0]["@URI"];
-  		} else {
-			getURIWithoutFilter(result["@text"], result["@confidence"], traitementURIWithoutFilter).done(fonction(resultat) {
-				if (resultat.Resources !== undefined && resultat.Resources[0]["@URI"] !== null) {
-					uri = resultat.Resources[0]["@URI"];
-				} 
-				else {		
-					uri = null;
-				}
-			});
-  		}
-	});
             
 	/* 
 		Fonction permettant de retourner l'URI correspondante au titre de la série rentrée ou sélectionnée par l'utilisateur
@@ -28,7 +14,7 @@ var myconfidence =0.5; // degré de confiance choisi
 		myconfidence est le niveau de confiance de la détection de l'URI à partir de la chaîne de caractère, fixé à 0.5
     stocke l'uri résultat dans la variable uri
 	*/
-    async function getURIWithFilter(mytext,myconfidence, traitementURIWithFilter) {
+    async function getURIWithFilter(mytext,myconfidence) {
     		var myTextUpperCase = mytext.toUpperCase();
                     return await
 					$.ajax({
@@ -46,7 +32,7 @@ var myconfidence =0.5; // degré de confiance choisi
       }
 
 
-	async function getURIWithoutFilter(mytext,myconfidence, traitementURIWithoutFilter) {
+	async function getURIWithoutFilter(mytext,myconfidence) {
 		var myTextUpperCase = mytext.toUpperCase();
 		return await
 		$.ajax({

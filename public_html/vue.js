@@ -7,8 +7,30 @@
 function startSearch()
 {
   var value = $("#searchInput")[0].value
-  console.log(getURIWithFilter(value,myconfidence,traitementURIWithFilter))
+  var uri;
+  var myconfidence =0.5; 
+  getURIWithFilter(value, myconfidence).then(function(result){
+		if (result.Resources !== undefined && result.Resources[0]["@URI"] !== null) {
+				uri = result.Resources[0]["@URI"];
+				getJson(uri);
+  		} else {
+			getURIWithoutFilter(result["@text"], result["@confidence"]).then(function(resultat){
+				if (resultat.Resources !== undefined && resultat.Resources[0]["@URI"] !== null) {
+					uri = resultat.Resources[0]["@URI"];
+				} else {		
+					uri = null;
+				}
+				getJson(uri);		
+			});
+  		}
+	});
 }
+
+function getJson(uri) {
+	console.log(uri);
+	
+}
+
 
 function clearResponse()
 {
