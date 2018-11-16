@@ -58,6 +58,7 @@ function displayMap(map)
 {
     var title = map["title"]
     var container = document.createElement('div')
+    container.classList.add("bigContainer")
     var titleContainer = document.createElement('h1')
     titleContainer.innerHTML=title
 

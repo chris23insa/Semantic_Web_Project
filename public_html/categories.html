@@ -6,15 +6,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="vue.js"></script>
+    <script src="vueCategorie.js"></script>
   </head>
   <body>
-    <input type="radio" name="categorie" id="fantastique"/><label for="fantastique">Fantastique</label><br>
-    <input type="radio" name="categorie" id="horreur"/><label for="horreur">Horreur</label><br>
-    <input type="radio" name="categorie" id="action"/><label for="action">Action</label><br>
-    <input type="radio" name="categorie" id="sf"/><label for="sf">Science Fiction</label><br>
-    <input type="radio" name="categorie" id="animation"/><label for="animation">Animation</label><br>
-    <input type="radio" name="categorie" id="comedie"/><label for="comedie">Comédie</label><br>
+    <input type="radio" name="categorie" id="fantastique" onchange="searchCategorie(this)"/><label for="fantastique">Fantastique</label><br>
+    <input type="radio" name="categorie" id="horreur" onchange="searchCategorie(this)"/><label for="horreur">Horreur</label><br>
+    <input type="radio" name="categorie" id="action" onchange="searchCategorie(this)"/><label for="action">Action</label><br>
+    <input type="radio" name="categorie" id="sf" onchange="searchCategorie(this)"/><label for="sf">Science Fiction</label><br>
+    <input type="radio" name="categorie" id="animation" onchange="searchCategorie(this)"/><label for="animation">Animation</label><br>
+    <input type="radio" name="categorie" id="comedie" onchange="searchCategorie(this)"/><label for="comedie">Comédie</label><br>
     <div id="response">
     </div>
   </body>
