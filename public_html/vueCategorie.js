@@ -25,5 +25,6 @@ function displayList(list)
 
 function displaySerieInfo(link)
 {
+	document.getElementById("response").innerHTML = "";
   getJson(link  )
 }

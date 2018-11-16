@@ -536,7 +536,7 @@ async function getSeriesListByCategories(language, genre) {
     return results;
 }
 
-getSeriesListByCategories(language, "Action").then((response) => {
+/*getSeriesListByCategories(language, "Action").then((response) => {
     console.log(response);
-});
+});*/
 

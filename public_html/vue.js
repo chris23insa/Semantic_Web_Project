@@ -30,7 +30,6 @@ function startSearch()
 function getJson(uri) {
 	console.log(uri);
 	getData(uri, "en").then((json) => {
-		console.log(json);
 		displayMap(json);
 	});
 }
