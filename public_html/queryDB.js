@@ -475,10 +475,10 @@ async function getThumbnail(uri, language) {
 
 async function getData(uri, language) {
     await Promise.all([
-        getName(uri, language),
-        getSerieName(uri, language),
-        getTypeDB(uri, language),
-        getDescription(uri, language),
+        getName(uri, language), 
+        getSerieName(uri, language), 
+        getTypeDB(uri,language), 
+        getDescription(uri, language), 
         getType(uri, language),
         getRuntime(uri, language),
         getCompany(uri, language),
@@ -499,3 +499,43 @@ async function getData(uri, language) {
     ]);
     return array;
 }
+
+    
+    /*getData(uri, language).then((array1) => {
+        console.log(JSON,array1);
+        console.log(JSON.stringify(array1));
+        });*/
+        
+async function getSeriesListByCategories(language, genre) {
+    var query =
+        `select distinct ?uri ?nameSerie
+        where
+        {
+            ?uri rdf:type dbo:TelevisionShow.
+            ?uri foaf:name ?nameSerie.
+            ?uri dbo:genre ?genre.
+            ?genre rdfs:label ?genreName.
+            FILTER(contains(?genreName, "${genre}"))
+            FILTER(LANG(?nameSerie)="${language}") 
+        }`;
+    var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
+    
+    var results;
+
+    await
+        $.ajax({
+            dataType: "jsonp",
+            url: queryUrl
+        }).done((data) => {
+            try{
+                results = data.results.bindings; 
+            }catch(error){}
+        });
+        
+    return results;
+}
+
+getSeriesListByCategories(language, "Action").then((response) => {
+    console.log(response);
+});
+
