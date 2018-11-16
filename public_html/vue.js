@@ -6,6 +6,7 @@
 
 function startSearch()
 {
+	clearResponse();
   var value = $("#searchInput")[0].value;
   var uri;
   var myconfidence =0.5; 
@@ -29,7 +30,7 @@ function startSearch()
 function getJson(uri) {
 	console.log(uri);
 	getData(uri, "en").then((json) => {
-		clearResponse();
+		console.log(json);
 		displayMap(json);
 	});
 }
@@ -37,7 +38,7 @@ function getJson(uri) {
 
 function clearResponse()
 {
-    $("#response").empty()
+    document.getElementById("response").innerHTML = "";
 }
 
 var MAP = {"title":"Game of Thrones",
