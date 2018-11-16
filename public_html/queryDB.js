@@ -15,7 +15,7 @@ async function getName(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['name'] = results[0]["nom"]["value"];
+                array['title'] = results[0]["nom"]["value"];
             } catch (error) {
             }
 
@@ -33,7 +33,7 @@ async function getSerieName(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['serieName'] = results[0]["nom"]["value"];
+                array['Serie Name'] = results[0]["nom"]["value"];
             } catch (error) {
             }
         });
@@ -55,11 +55,11 @@ async function getTypeDB(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['typeDB'] = [];
+                array['Type article DBpedia'] = [];
                 results.forEach(function (element) {
                     var newElement = element["typeLanguage"]["value"];
-                    if (array['typeDB'].indexOf(newElement) === -1) {
-                        array['typeDB'].push(newElement);
+                    if (array['Type article DBpedia'].indexOf(newElement) === -1) {
+                        array['Type article DBpedia'].push(newElement);
                     }
 
                 });
@@ -79,7 +79,7 @@ async function getDescription(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['description'] = results[0]["com"]["value"];
+                array['Description'] = results[0]["com"]["value"];
 
             } catch (error) {
             }
@@ -103,33 +103,16 @@ async function getType(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['type'] = [];
+                array['Type'] = [];
                 results.forEach(function (element) {
                     var newElement = element["typeSerie"]["value"];
-                    if (array['type'].indexOf(newElement) === -1) {
-                        array['type'].push(newElement);
+                    if (array['Type'].indexOf(newElement) === -1) {
+                        array['Type'].push(newElement);
                     }
                 });
             } catch (error) {
             }
         });
-}
-
-async function getRuntime(uri, language) {
-    var query = `select ?runtime where{ <${uri}> <http://dbpedia.org/ontology/Work/runtime> ?runtime.}`;
-    var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
-    return await
-        $.ajax({
-            dataType: "jsonp",
-            url: queryUrl
-        }).done((data) => {
-            try {
-                var results = data.results.bindings;
-                array['runtime'] = results[0]["runtime"]["value"];
-            } catch (error) {
-            }
-        });
-
 }
 
 async function getCompany(uri, language) {
@@ -147,11 +130,11 @@ async function getCompany(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['company'] = [];
+                array['Company'] = [];
                 results.forEach(function (element) {
                     var newElement = element["companyLabel"]["value"];
-                    if (array['company'].indexOf(newElement) === -1) {
-                        array['company'].push(newElement);
+                    if (array['Company'].indexOf(newElement) === -1) {
+                        array['Company'].push(newElement);
                     }
                 });
             } catch (error) {
@@ -170,7 +153,7 @@ async function getRuntime(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['runtime'] = results[0]["runtime"]["value"];
+                array['Runtime'] = results[0]["runtime"]["value"].replace('-','');;
             } catch (error) {
             }
         });
@@ -209,11 +192,11 @@ async function getCreators(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['creators'] = [];
+                array['Creators'] = [];
                 results.forEach(function (element) {
                     var newElement = element["creatorName"]["value"];
-                    if (array['creators'].indexOf(newElement) === -1) {
-                        array['creators'].push(newElement);
+                    if (array['Creators'].indexOf(newElement) === -1) {
+                        array['Creators'].push(newElement);
                     }
                 });
             } catch (error) {
@@ -236,11 +219,11 @@ async function getDistributor(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['distributors'] = [];
+                array['Distributors'] = [];
                 results.forEach(function (element) {
                     var newElement = element["distributorName"]["value"];
-                    if (array['distributors'].indexOf(newElement) === -1) {
-                        array['distributors'].push(newElement);
+                    if (array['Distributors'].indexOf(newElement) === -1) {
+                        array['Distributors'].push(newElement);
                     }
                 });
             } catch (error) {
@@ -264,11 +247,11 @@ async function getStars(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['stars'] = [];
+                array['Stars'] = [];
                 results.forEach(function (element) {
                     var newElement = element["starsName"]["value"];
-                    if (array['stars'].indexOf(newElement) === -1) {
-                        array['stars'].push(newElement);
+                    if (array['Stars'].indexOf(newElement) === -1) {
+                        array['Stars'].push(newElement);
                     }
                 });
             } catch (error) {
@@ -290,7 +273,7 @@ async function getNetwork(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['network'] = results[0]["networkName"]["value"];
+                array['Network'] = results[0]["networkName"]["value"];
             } catch (error) {
             }
 
@@ -310,7 +293,7 @@ async function getNumberEpisodes(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['numberOfEpisodes'] = results[0]["nbrEpisode"]["value"];
+                array['Number Of Episodes'] = results[0]["nbrEpisode"]["value"];
             } catch (error) {
             }
 
@@ -331,7 +314,7 @@ async function getNumberSeasons(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['numberOfSeasons'] = results[0]["nbrSeasons"]["value"];
+                array['Number Of Seasons'] = results[0]["nbrSeasons"]["value"];
             } catch (error) {
             }
         });
@@ -352,7 +335,7 @@ async function getTheme(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['theme'] = results[0]["themeName"]["value"];
+                array['theme'] = results[0]["Theme Name"]["value"];
             } catch (error) {
             }
         });
@@ -371,7 +354,7 @@ async function getReleaseDate(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['releaseDate'] = results[0]["relDate"]["value"];
+                array['Release Date'] = results[0]["relDate"]["value"];
             } catch (error) {
             }
         });
@@ -396,7 +379,7 @@ async function getRelatedWorks(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['relName'] = results[0]['relName']['value'];
+                array['Related Series'] = results[0]['relName']['value'];
             } catch (error) {
             }
         });
@@ -418,7 +401,7 @@ async function getCountry(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['country'] = results[0]['country']['value'];
+                array['Country'] = results[0]['country']['value'];
             } catch (error) {
             }
         });
@@ -440,7 +423,7 @@ async function getLanguage(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['language'] = results[0]['rel']['value'];
+                array['Language'] = results[0]['rel']['value'];
             } catch (error) {
             }
         });
@@ -462,7 +445,7 @@ async function getLogo(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['logo'] = results[0]['rel']['value'];
+                array['image'] = results[0]['rel']['value'];
             } catch (error) {
             }
         });
@@ -516,7 +499,3 @@ async function getData(uri, language) {
     ]);
     return array;
 }
-
-getData(uri, language).then((array) => {
-    console.log(array);
-});

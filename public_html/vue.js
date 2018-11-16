@@ -6,7 +6,7 @@
 
 function startSearch()
 {
-  var value = $("#searchInput")[0].value
+  var value = $("#searchInput")[0].value;
   var uri;
   var myconfidence =0.5; 
   getURIWithFilter(value, myconfidence).then(function(result){
@@ -28,7 +28,10 @@ function startSearch()
 
 function getJson(uri) {
 	console.log(uri);
-	
+	getData(uri, "en").then((json) => {
+		clearResponse();
+		displayMap(json);
+	});
 }
 
 
@@ -80,6 +83,7 @@ function displayMap(map)
 {
     var title = map["title"]
     var container = document.createElement('div')
+	container.style.textAlign = "center"
     var titleContainer = document.createElement('h1')
     titleContainer.innerHTML=title
 
@@ -87,9 +91,13 @@ function displayMap(map)
     {
       var imgContainer = document.createElement('img')
       imgContainer.src = map['image']
+      imgContainer.width = "1000"
       container.append(imgContainer)
       delete map['image']
     }
+    
+    var br = document.createElement('br')
+	container.append(br)
 
     if('thumbnail' in map)
     {
