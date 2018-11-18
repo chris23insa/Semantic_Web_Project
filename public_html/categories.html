@@ -6,18 +6,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
     <script src="queryDB.js"></script>
     <script src="vueCategorie.js"></script>
     <script src="vue.js"></script>
   </head>
+  <header>
+    NETFL'IFX
+  </header>
   <body>
-    <input type="radio" name="categorie" id="thriller" onchange="searchCategorie(this)"/><label for="thriller">Thriller</label><br>
-    <input type="radio" name="categorie" id="horror" onchange="searchCategorie(this)"/><label for="horror">Horreur</label><br>
-    <input type="radio" name="categorie" id="action" onchange="searchCategorie(this)"/><label for="action">Action</label><br>
-    <input type="radio" name="categorie" id="sci" onchange="searchCategorie(this)"/><label for="sci">Science Fiction</label><br>
-    <input type="radio" name="categorie" id="animation" onchange="searchCategorie(this)"/><label for="animation">Animation</label><br>
-    <input type="radio" name="categorie" id="fantasy" onchange="searchCategorie(this)"/><label for="fantasy">Fantastique</label><br>
-    <input type="radio" name="categorie" id="comedy" onchange="searchCategorie(this)"/><label for="comedy">Comédie</label><br>
+    <div id="request">
+    <input type="radio" name="categorie" id="thriller" onclick="searchCategorie(this)"/><label for="thriller">Thriller</label>
+    <input type="radio" name="categorie" id="horror" onclick="searchCategorie(this)"/><label for="horror">Horreur</label>
+    <input type="radio" name="categorie" id="action" onclick="searchCategorie(this)"/><label for="action">Action</label>
+    <input type="radio" name="categorie" id="sci" onclick="searchCategorie(this)"/><label for="sci">Science Fiction</label>
+    <input type="radio" name="categorie" id="animation" onclick="searchCategorie(this)"/><label for="animation">Animation</label>
+    <input type="radio" name="categorie" id="fantasy" onclick="searchCategorie(this)"/><label for="fantasy">Fantastique</label>
+    <input type="radio" name="categorie" id="comedy" onclick="searchCategorie(this)"/><label for="comedy">Comédie</label>
+  </div>
     <div id="response">
     </div>
   </body>

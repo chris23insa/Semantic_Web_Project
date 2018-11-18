@@ -25,5 +25,5 @@ function displayList(list)
 
 function displaySerieInfo(link)
 {
-  getJson(link  )
+  getJson(link)
 }

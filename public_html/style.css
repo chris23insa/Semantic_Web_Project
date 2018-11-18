@@ -2,3 +2,53 @@
   border: solid black 2px;
   padding: 1em
 }
+
+header{
+  text-align: center;
+  font-size: 200px;
+  color: red;
+  font-family: Arial,Helvetica Neue,Helvetica,sans-serif;
+  font-weight: bolder;
+}
+
+input{
+  font-size: 50px;
+}
+
+button{
+  font-size: 50px;
+}
+
+.footer{
+  text-align: center;
+  font-size: 30px;
+  margin-bottom: 30px;
+}
+
+div{
+  margin-left: 50px;
+  text-align: justify;
+  margin-right: 50px
+}
+
+img{
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+a{
+  cursor: pointer;
+  text-align: center;
+}
+a:hover{
+  color: red;
+}
+
+label{
+  margin-right: 20px;
+}
+
+#request{
+  margin-bottom: 20px; 
+}

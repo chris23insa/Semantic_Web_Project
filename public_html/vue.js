@@ -9,7 +9,7 @@ function startSearch()
 	clearResponse();
   var value = $("#searchInput")[0].value;
   var uri;
-  var myconfidence =0.5; 
+  var myconfidence =0.5;
   getURIWithFilter(value, myconfidence).then(function(result){
 		if (result.Resources !== undefined && result.Resources[0]["@URI"] !== null) {
 				uri = result.Resources[0]["@URI"];
@@ -18,10 +18,10 @@ function startSearch()
 			getURIWithoutFilter(result["@text"], result["@confidence"]).then(function(resultat){
 				if (resultat.Resources !== undefined && resultat.Resources[0]["@URI"] !== null) {
 					uri = resultat.Resources[0]["@URI"];
-				} else {		
+				} else {
 					uri = null;
 				}
-				getJson(uri);		
+				getJson(uri);
 			});
   		}
 	});
@@ -31,6 +31,7 @@ function getJson(uri) {
 	console.log(uri);
 	getData(uri, "en").then((json) => {
 		console.log(json);
+		clearResponse()
 		displayMap(json);
 	});
 }
@@ -83,39 +84,45 @@ function getHTML(key,value,lvl)
 function displayMap(map)
 {
     var title = map["title"]
-    var container = document.createElement('div')
-	container.style.textAlign = "center"
-    container.classList.add("bigContainer")
-    var titleContainer = document.createElement('h1')
-    titleContainer.innerHTML=title
+		var container = document.createElement('div')
+		if (title == undefined)
+		{
+			container.innerHTML = "Désolé, la recherche n'a pas pu aboutir :("
+			container.style = "text-align : center; font-size: 50px"
+		}
+		else {
+			container.classList.add("bigContainer")
+	    var titleContainer = document.createElement('h1')
+	    titleContainer.innerHTML=title
 
-    if('image' in map)
-    {
-      var imgContainer = document.createElement('img')
-      imgContainer.src = map['image']
-      imgContainer.width = "1000"
-      container.append(imgContainer)
-      delete map['image']
-    }
-    
-    var br = document.createElement('br')
-	container.append(br)
+	    if('image' in map)
+	    {
+	      var imgContainer = document.createElement('img')
+	      imgContainer.src = map['image']
+	      imgContainer.width = "1000"
+	      container.append(imgContainer)
+	      delete map['image']
+	    }
 
-    if('thumbnail' in map)
-    {
-      var imgContainer = document.createElement('img')
-      imgContainer.src = map['thumbnail']
-      container.append(imgContainer)
-      delete map['thumbnail']
-    }
+	    var br = document.createElement('br')
+		container.append(br)
 
-    container.append(titleContainer)
+	    if('thumbnail' in map)
+	    {
+	      var imgContainer = document.createElement('img')
+	      imgContainer.src = map['thumbnail']
+	      container.append(imgContainer)
+	      delete map['thumbnail']
+	    }
 
-    delete map["title"]
-    for(elem in map)
-    {
-        container.append(getHTML(elem,map[elem],2))
-    }
+	    container.append(titleContainer)
+
+	    delete map["title"]
+	    for(elem in map)
+	    {
+	        container.append(getHTML(elem,map[elem],2))
+	    }
+		}
 
     $("#response")[0].appendChild(container)
 }
