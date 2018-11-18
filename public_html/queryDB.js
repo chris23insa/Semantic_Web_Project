@@ -1,5 +1,5 @@
 var url = "http://dbpedia.org/sparql";
-var uri = "http://dbpedia.org/resource/Quantico_(TV_series)";
+var uri = "http://dbpedia.org/resource/Battlefield_(TV_series)";
 var language = "en";
 
 var array = {};
@@ -14,6 +14,7 @@ async function getName(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getName : ", data.results);
                 var results = data.results.bindings;
                 array['title'] = results[0]["nom"]["value"];
             } catch (error) {
@@ -32,6 +33,7 @@ async function getSerieName(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getSerieName : ", data.results);
                 var results = data.results.bindings;
                 array['Serie Name'] = results[0]["nom"]["value"];
             } catch (error) {
@@ -54,6 +56,7 @@ async function getTypeDB(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getTypeDB : ", data.results);
                 var results = data.results.bindings;
                 array['Type article DBpedia'] = [];
                 results.forEach(function (element) {
@@ -68,7 +71,6 @@ async function getTypeDB(uri, language) {
         });
 }
 
-
 async function getDescription(uri, language) {
     var query = `select ?com where{ <${uri}> dbo:abstract ?com.FILTER(LANG(?com) = "${language}")}`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
@@ -78,6 +80,7 @@ async function getDescription(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getDescription : ", data.results);
                 var results = data.results.bindings;
                 array['Description'] = results[0]["com"]["value"];
 
@@ -86,7 +89,6 @@ async function getDescription(uri, language) {
         });
 
 }
-
 
 async function getType(uri, language) {
     var query = `select ?typeSerie
@@ -102,6 +104,7 @@ async function getType(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getType : ", data.results);
                 var results = data.results.bindings;
                 array['Type'] = [];
                 results.forEach(function (element) {
@@ -129,6 +132,7 @@ async function getCompany(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getCompany : ", data.results);
                 var results = data.results.bindings;
                 array['Company'] = [];
                 results.forEach(function (element) {
@@ -142,7 +146,6 @@ async function getCompany(uri, language) {
         });
 }
 
-
 async function getRuntime(uri, language) {
     var query = `select ?runtime where{ <${uri}> <http://dbpedia.org/ontology/Work/runtime> ?runtime.}`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
@@ -152,8 +155,15 @@ async function getRuntime(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getRuntime : ", data.results);
                 var results = data.results.bindings;
-                array['Runtime'] = results[0]["runtime"]["value"].replace('-','');;
+                array['Runtime'] = [];
+                results.forEach(function (element) {
+                    var newElement = element["runtime"]["value"].replace('-', '');
+                    if (array['Runtime'].indexOf(newElement) === -1) {
+                        array['Runtime'].push(newElement);
+                    }
+                });
             } catch (error) {
             }
         });
@@ -169,6 +179,7 @@ async function getLastDate(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getLastDate : ", data.results);
                 var results = data.results.bindings;
                 array['lastEpisodeDate'] = results[0]["date"]["value"];
             } catch (error) {
@@ -191,6 +202,7 @@ async function getCreators(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getCreators : ", data.results);
                 var results = data.results.bindings;
                 array['Creators'] = [];
                 results.forEach(function (element) {
@@ -218,6 +230,7 @@ async function getDistributor(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getDistributor : ", data.results);
                 var results = data.results.bindings;
                 array['Distributors'] = [];
                 results.forEach(function (element) {
@@ -246,6 +259,7 @@ async function getStars(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getStars : ", data.results);
                 var results = data.results.bindings;
                 array['Stars'] = [];
                 results.forEach(function (element) {
@@ -272,6 +286,7 @@ async function getNetwork(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getNetwork : ", data.results);
                 var results = data.results.bindings;
                 array['Network'] = results[0]["networkName"]["value"];
             } catch (error) {
@@ -292,6 +307,7 @@ async function getNumberEpisodes(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getNumberEpisodes : ", data.results);
                 var results = data.results.bindings;
                 array['Number Of Episodes'] = results[0]["nbrEpisode"]["value"];
             } catch (error) {
@@ -300,7 +316,6 @@ async function getNumberEpisodes(uri, language) {
         });
 
 }
-
 
 async function getNumberSeasons(uri, language) {
     var query = `select ?nbrSeasons 
@@ -313,6 +328,7 @@ async function getNumberSeasons(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getNumberSeasons : ", data.results);
                 var results = data.results.bindings;
                 array['Number Of Seasons'] = results[0]["nbrSeasons"]["value"];
             } catch (error) {
@@ -334,6 +350,7 @@ async function getTheme(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getTheme : ", data.results);
                 var results = data.results.bindings;
                 array['theme'] = results[0]["Theme Name"]["value"];
             } catch (error) {
@@ -353,6 +370,7 @@ async function getReleaseDate(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getReleaseDate : ", data.results);
                 var results = data.results.bindings;
                 array['Release Date'] = results[0]["relDate"]["value"];
             } catch (error) {
@@ -378,6 +396,7 @@ async function getRelatedWorks(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getRelatedWorks : ", data.results);
                 var results = data.results.bindings;
                 array['Related Series'] = results[0]['relName']['value'];
             } catch (error) {
@@ -400,8 +419,22 @@ async function getCountry(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getCountry : ", data.results);
                 var results = data.results.bindings;
-                array['Country'] = results[0]['country']['value'];
+                array['Country'] = [];
+                results.forEach(function (element) {
+                    var newElement = element['country']['value'];
+                    if (array['Country'].indexOf(newElement) === -1) {
+                        array['Country'].push(newElement);
+                    }
+                });
+                for (var i = 0; i < array['Country'].length; i++) {
+                    var reg = new RegExp(array['Country'][i].replace(/[.]/g, '').replace(/./g, "$&.*"), 'i');
+                    array['Country'].forEach((country, j) => {
+                        if (i !== j && reg.test(country))
+                            array['Country'].splice(i, 1);
+                    });
+                }
             } catch (error) {
             }
         });
@@ -422,6 +455,7 @@ async function getLanguage(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getLanguage : ", data.results);
                 var results = data.results.bindings;
                 array['Language'] = results[0]['rel']['value'];
             } catch (error) {
@@ -444,6 +478,7 @@ async function getLogo(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getLogo : ", data.results);
                 var results = data.results.bindings;
                 array['image'] = results[0]['rel']['value'];
             } catch (error) {
@@ -466,6 +501,7 @@ async function getThumbnail(uri, language) {
             url: queryUrl
         }).done((data) => {
             try {
+                console.log("getThumbnail : ", data.results);
                 var results = data.results.bindings;
                 array['thumbnail'] = results[0]['rel']['value'];
             } catch (error) {
@@ -474,12 +510,12 @@ async function getThumbnail(uri, language) {
 }
 
 async function getData(uri, language) {
-	array = {};
+    array = {};
     await Promise.all([
-        getName(uri, language), 
-        getSerieName(uri, language), 
-        getTypeDB(uri,language), 
-        getDescription(uri, language), 
+        getName(uri, language),
+        getSerieName(uri, language),
+        getTypeDB(uri, language),
+        getDescription(uri, language),
         getType(uri, language),
         getRuntime(uri, language),
         getCompany(uri, language),
@@ -501,12 +537,11 @@ async function getData(uri, language) {
     return array;
 }
 
-    
-    /*getData(uri, language).then((array1) => {
-        console.log(JSON,array1);
-        console.log(JSON.stringify(array1));
-        });*/
-        
+/*getData(uri, language).then((array1) => {
+    console.log(JSON, array1);
+    console.log(JSON.stringify(array1));
+});*/
+
 async function getSeriesListByCategories(language, genre) {
     var query =
         `select distinct ?uri ?nameSerie
@@ -520,7 +555,7 @@ async function getSeriesListByCategories(language, genre) {
             FILTER(LANG(?nameSerie)="${language}") 
         }`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
-    
+
     var results;
 
     await
@@ -528,15 +563,19 @@ async function getSeriesListByCategories(language, genre) {
             dataType: "jsonp",
             url: queryUrl
         }).done((data) => {
-            try{
-                results = data.results.bindings; 
-            }catch(error){}
+            try {
+                results = data.results.bindings;
+            } catch (error) {
+            }
         });
-        
+
     return results;
 }
 
-getSeriesListByCategories(language, "Action").then((response) => {
-    console.log(response);
+getCountry(uri, language).then(() => {
+   console.log(array['Country']);
 });
 
+/*getSeriesListByCategories(language, "Action").then((response) => {
+    console.log(response);
+});*/
