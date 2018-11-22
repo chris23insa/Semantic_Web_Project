@@ -79,7 +79,7 @@ async function getTypeDB(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['Type article DBpedia'] = [];
+                array['DBpedia type'] = [];
                 results.forEach(function (element) {
                     var newElement = element["typeLanguage"]["value"];
                     if (array['Type article DBpedia'].indexOf(newElement) === -1) {
@@ -197,7 +197,7 @@ async function getLastDate(uri, language) {
         }).done((data) => {
             try {
                 var results = data.results.bindings;
-                array['lastEpisodeDate'] = results[0]["date"]["value"];
+                array['Last Episode Date'] = results[0]["date"]["value"];
             } catch (error) {
             }
         });
@@ -309,7 +309,7 @@ async function getNetwork(uri, language) {
 }
 
 async function getNumberEpisodes(uri, language) {
-    var query = `select ?nbrEpisode 
+    var query = `select ?nbrEpisode
     where{ <${uri}> dbo:numberOfEpisodes ?nbrEpisode.
     }`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
@@ -329,7 +329,7 @@ async function getNumberEpisodes(uri, language) {
 }
 
 async function getNumberSeasons(uri, language) {
-    var query = `select ?nbrSeasons 
+    var query = `select ?nbrSeasons
     where{ <${uri}> dbo:numberOfSeasons ?nbrSeasons.
     }`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
@@ -348,7 +348,7 @@ async function getNumberSeasons(uri, language) {
 }
 
 async function getTheme(uri, language) {
-    var query = `select ?themeName 
+    var query = `select ?themeName
     where{ <${uri}> dbo:openingTheme ?theme.
    ?theme rdfs:label ?themeName.
     FILTER(LANG(?themeName)="${language}")
@@ -369,7 +369,7 @@ async function getTheme(uri, language) {
 }
 
 async function getReleaseDate(uri, language) {
-    var query = `select ?relDate 
+    var query = `select ?relDate
     where{ <${uri}> dbo:releaseDate ?relDate.
     }`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
@@ -425,7 +425,7 @@ async function getCountry(uri, language) {
               <${uri}> rdf:type dbo:TelevisionShow.
               <${uri}> dbp:country ?country.
               FILTER(datatype (?country) = rdf:langString)
-           } 
+           }
         }`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
 
@@ -460,7 +460,7 @@ async function getLanguage(uri, language) {
         `select ?rel
         where
         {
-           <${uri}>  dbp:language ?rel.        
+           <${uri}>  dbp:language ?rel.
         }`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
 
@@ -482,7 +482,7 @@ async function getLogo(uri, language) {
         `select ?rel
         where
         {
-           <${uri}>  <http://xmlns.com/foaf/0.1/depiction> ?rel.        
+           <${uri}>  <http://xmlns.com/foaf/0.1/depiction> ?rel.
         }`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
 
@@ -504,7 +504,7 @@ async function getThumbnail(uri, language) {
         `select ?rel
         where
         {
-            <${uri}> dbo:thumbnail ?rel.        
+            <${uri}> dbo:thumbnail ?rel.
         }`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
 
@@ -564,7 +564,7 @@ async function getSeriesListByCategories(language, genre) {
             ?uri dbo:genre ?genre.
             ?genre rdfs:label ?genreName.
             FILTER(contains(?genreName, "${genre}"))
-            FILTER(LANG(?nameSerie)="${language}") 
+            FILTER(LANG(?nameSerie)="${language}")
         }`;
     var queryUrl = encodeURI(url + "?query=" + query + "&format=json");
 
