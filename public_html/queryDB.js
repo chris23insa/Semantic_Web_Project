@@ -1,5 +1,4 @@
 var url = "http://dbpedia.org/sparql";
-var uri = "http://dbpedia.org/resource/Believe_(TV_series)";
 var language = "en";
 
 var array = {};
